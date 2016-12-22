@@ -235,17 +235,16 @@ def make_data():
     return train_df, features, prod_features
 
 
-def make_submission(fname, Y_test, C):
+def make_submission(f, Y_test, C):
     Y_ret = []
     with Timer("make submission: %s" % fname):
-        with gzip.open(fname, "wb") as f:
-            f.write("ncodpers,added_products\n".encode('utf-8'))
-            for c, y_test in zip(C, Y_test):
-                y_prods = [(y,p,ip) for y,p,ip in zip(y_test, products, range(len(products)))]
-                y_prods = sorted(y_prods, key=lambda a: a[0], reverse=True)[:7]
-                Y_ret.append([ip for y,p,ip in y_prods])
-                y_prods = [p for y,p,ip in y_prods]
-                f.write(("%s,%s\n" % (int(c), " ".join(y_prods))).encode('utf-8'))
+        f.write("ncodpers,added_products\n".encode('utf-8'))
+        for c, y_test in zip(C, Y_test):
+            y_prods = [(y,p,ip) for y,p,ip in zip(y_test, products, range(len(products)))]
+            y_prods = sorted(y_prods, key=lambda a: a[0], reverse=True)[:7]
+            Y_ret.append([ip for y,p,ip in y_prods])
+            y_prods = [p for y,p,ip in y_prods]
+            f.write(("%s,%s\n" % (int(c), " ".join(y_prods))).encode('utf-8'))
     return Y_ret
 
 
