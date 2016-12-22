@@ -1,7 +1,7 @@
 # Santander Product Recommendation - 8th place
 
 ### Caution
-make_data() step in main.py needs 30GB of memory but it can be optimized.
+* make_data() step in main.py needs 30GB of memory but it can be optimized.
 
 ### This code produces 3 submissions
 * xgboost - 0.03061 public LB
