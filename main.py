@@ -237,7 +237,7 @@ def make_data():
 
 def make_submission(f, Y_test, C):
     Y_ret = []
-    with Timer("make submission: %s" % fname):
+    with Timer("make submission"):
         f.write("ncodpers,added_products\n".encode('utf-8'))
         for c, y_test in zip(C, Y_test):
             y_prods = [(y,p,ip) for y,p,ip in zip(y_test, products, range(len(products)))]
