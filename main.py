@@ -325,7 +325,7 @@ def train_predict(all_df, features, prod_features, str_date, cv):
         Y_test_lgbm = engines.lightgbm(XY_train, XY_validate, test_df, features, XY_all = XY,
             restore = (str_date == "2016-06-28")
         )
-        test_add_list_lightgbm = make_submission(io.StringIO() if cv else gzip.open("tmp/%s.lightgbm.csv.gz" % str_date, "wb"),
+        test_add_list_lightgbm = make_submission(io.BytesIO() if cv else gzip.open("tmp/%s.lightgbm.csv.gz" % str_date, "wb"),
                                                   Y_test_lgbm - Y_prev, C)
         if cv:
             map7lightgbm = mapk(test_add_list, test_add_list_lightgbm, 7, 0.0)
@@ -335,7 +335,7 @@ def train_predict(all_df, features, prod_features, str_date, cv):
         Y_test_xgb = engines.xgboost(XY_train, XY_validate, test_df, features, XY_all = XY,
             restore = (str_date == "2016-06-28")
         )
-        test_add_list_xgboost = make_submission(io.StringIO() if cv else gzip.open("tmp/%s.xgboost.csv.gz" % str_date, "wb"),
+        test_add_list_xgboost = make_submission(io.BytesIO() if cv else gzip.open("tmp/%s.xgboost.csv.gz" % str_date, "wb"),
                                                 Y_test_xgb - Y_prev, C)
         if cv:
             map7xgboost = mapk(test_add_list, test_add_list_xgboost, 7, 0.0)
@@ -343,7 +343,7 @@ def train_predict(all_df, features, prod_features, str_date, cv):
 
     Y_test = np.sqrt(np.multiply(Y_test_xgb, Y_test_lgbm))
 
-    test_add_list_xl = make_submission(io.StringIO() if cv else gzip.open("tmp/%s.xgboost-lightgbm.csv.gz" % str_date, "wb"),
+    test_add_list_xl = make_submission(io.BytesIO() if cv else gzip.open("tmp/%s.xgboost-lightgbm.csv.gz" % str_date, "wb"),
                                        Y_test - Y_prev, C)
     if cv:
         map7xl = mapk(test_add_list, test_add_list_xl, 7, 0.0)
